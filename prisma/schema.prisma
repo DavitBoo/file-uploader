@@ -20,7 +20,8 @@
     password  String
     name      String?
     createdAt DateTime @default(now())
-    sessions  Session[]
+    sessions  Session[] 
+      folders  Folder[] // 1-n
   } 
 
 
@@ -35,3 +36,23 @@
     @@index([sid], map: "idx_sid")
     @@index([expiresAt], map: "idx_expiresAt")
   }
+
+  model Folder {
+  id        Int      @id @default(autoincrement())
+  name      String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  files     File[]   // 1-n
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model File {
+  id        Int      @id @default(autoincrement())
+  filename  String
+  path      String
+  folder    Folder   @relation(fields: [folderId], references: [id])
+  folderId  Int
+  createdAt DateTime @default(now())
+}
