@@ -7,6 +7,7 @@ const path = require("path");
 
 const authRoutes = require("./routes/authRoutes");
 const fileRoutes = require("./routes/fileRoutes");
+const folderRoutes = require("./routes/folderRoutes");
 
 const app = express();
 const prisma = new PrismaClient();
@@ -44,6 +45,7 @@ require("./middleware/passportConfig"); // Separate passport configuration for b
 // Route Handlers
 app.use("/", authRoutes);
 app.use("/", fileRoutes);
+app.use("/", folderRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 3000;

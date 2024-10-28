@@ -19,4 +19,8 @@ router.get("/login-fail", (req, res) => res.status(401).json({ message: "Login f
 router.get("/logout", authController.logout);
 router.get("/profile", authController.profile);
 
+router.get("/test-interface", (req, res) => {
+  res.sendFile(path.join(__dirname, "../views/test_interface.html"));
+});
+
 module.exports = router;

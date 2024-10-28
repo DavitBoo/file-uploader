@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Folders and File Upload</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; }
+    section { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Test Folders and File Upload</h1>
+
+  <!-- Create Folder -->
+  <section>
+    <h2>Create Folder</h2>
+    <form id="create-folder-form">
+      <label for="folder-name">Folder Name:</label>
+      <input type="text" id="folder-name" required>
+      <button type="submit">Create Folder</button>
+    </form>
+  </section>
+
+  <!-- List Folders -->
+  <section>
+    <h2>List Folders</h2>
+    <button onclick="getFolders()">Get Folders</button>
+    <ul id="folders-list"></ul>
+  </section>
+
+  <!-- Update Folder -->
+  <section>
+    <h2>Update Folder</h2>
+    <form id="update-folder-form">
+      <label for="folder-id">Folder ID:</label>
+      <input type="number" id="update-folder-id" required>
+      <label for="new-folder-name">New Folder Name:</label>
+      <input type="text" id="new-folder-name" required>
+      <button type="submit">Update Folder</button>
+    </form>
+  </section>
+
+  <!-- Delete Folder -->
+  <section>
+    <h2>Delete Folder</h2>
+    <form id="delete-folder-form">
+      <label for="delete-folder-id">Folder ID:</label>
+      <input type="number" id="delete-folder-id" required>
+      <button type="submit">Delete Folder</button>
+    </form>
+  </section>
+
+  <!-- Upload File to Folder -->
+  <section>
+    <h2>Upload File to Folder</h2>
+    <form id="upload-file-form" enctype="multipart/form-data">
+      <label for="upload-folder-id">Folder ID:</label>
+      <input type="number" id="upload-folder-id" required>
+      <label for="file">Choose File:</label>
+      <input type="file" id="file" name="file" required>
+      <button type="submit">Upload File</button>
+    </form>
+  </section>
+
+  <script>
+    // Helper function to handle response
+    function handleResponse(response) {
+      response.json().then(data => {
+        console.log(data);
+        alert(JSON.stringify(data, null, 2));
+      });
+    }
+
+    // Create Folder
+    document.getElementById("create-folder-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const folderName = document.getElementById("folder-name").value;
+
+      const response = await fetch("/folders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: folderName })
+      });
+      handleResponse(response);
+    });
+
+    // Get Folders
+    async function getFolders() {
+      const response = await fetch("/folders", { method: "GET" });
+      const data = await response.json();
+
+      const foldersList = document.getElementById("folders-list");
+      foldersList.innerHTML = "";
+
+      data.forEach(folder => {
+        const li = document.createElement("li");
+        li.textContent = `ID: ${folder.id}, Name: ${folder.name}, Files: ${folder.files.length}`;
+        foldersList.appendChild(li);
+      });
+    }
+
+    // Update Folder
+    document.getElementById("update-folder-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const folderId = document.getElementById("update-folder-id").value;
+      const newFolderName = document.getElementById("new-folder-name").value;
+
+      const response = await fetch(`/folders/${folderId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newFolderName })
+      });
+      handleResponse(response);
+    });
+
+    // Delete Folder
+    document.getElementById("delete-folder-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const folderId = document.getElementById("delete-folder-id").value;
+
+      const response = await fetch(`/folders/${folderId}`, { method: "DELETE" });
+      handleResponse(response);
+    });
+
+    // Upload File to Folder
+    document.getElementById("upload-file-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const folderId = document.getElementById("upload-folder-id").value;
+      const fileInput = document.getElementById("file");
+
+      const formData = new FormData();
+      formData.append("file", fileInput.files[0]);
+
+      const response = await fetch(`/folders/${folderId}/upload`, {
+        method: "POST",
+        body: formData
+      });
+      handleResponse(response);
+    });
+  </script>
+</body>
+</html>
