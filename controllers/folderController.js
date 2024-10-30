@@ -26,7 +26,7 @@ exports.createFolder = async (req, res) => {
 
     // Create corresponding folder in the filesystem
     const folderPath = path.join(BASE_UPLOAD_PATH, folder.id.toString());   // here I write the new folders route and its name
-    // ! aquí fs.mkdirSync(folderPath, { recursive: true });
+    fs.mkdirSync(folderPath, { recursive: true });  // recursive allows to create the parent dirctories
 
     res.status(201).json(folder);
   } catch (error) {
