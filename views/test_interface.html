@@ -131,6 +131,7 @@
 
       const formData = new FormData();
       formData.append("file", fileInput.files[0]);
+      formData.append("folderId", folderId);
 
       const response = await fetch(`/folders/${folderId}/upload`, {
         method: "POST",
