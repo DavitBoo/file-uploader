@@ -13,10 +13,14 @@ const app = express();
 const prisma = new PrismaClient();
 
 // Serve static files (optional, depending on your app's setup)
-app.use(express.static(path.join(__dirname, "views")));
+// app.use(express.static(path.join(__dirname, "views")));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+
 
 // Set up express-session with PrismaSessionStore
 app.use(
@@ -46,6 +50,7 @@ require("./middleware/passportConfig"); // Separate passport configuration for b
 app.use("/", authRoutes);
 app.use("/", fileRoutes);
 app.use("/", folderRoutes);
+
 
 // Start the server
 const PORT = process.env.PORT || 3000;
