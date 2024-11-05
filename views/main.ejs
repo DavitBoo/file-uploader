@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Manager - Google Drive Style</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <div class="navbar">
+        <h1>File Manager</h1>
+        <button class="btn" onclick="window.location.href='/logout'">Logout</button>
+    </div>
+
+    <div class="container">
+        <!-- Create Folder Form -->
+        <div class="form-container">
+            <h2>Create a New Folder</h2>
+            <form action="/folders" method="POST">
+                <label for="folderName">Folder Name:</label>
+                <input type="text" name="name" id="folderName" required>
+                <button type="submit">Create Folder</button>
+            </form>
+        </div>
+
+        <!-- Display Folders -->
+        <h2>Your Folders</h2>
+        <div class="folder-grid">
+            <% if (folders.length > 0) { %>
+                <% folders.forEach(folder => { %>
+                    <div class="folder">
+                        <div class="folder-icon">📁</div>
+                        <h3><%= folder.name %></h3>
+                        
+                        <!-- File Upload Form for Each Folder -->
+                        <form action="/folders/<%= folder.id %>/upload" method="POST" enctype="multipart/form-data">
+                            <input type="file" name="file" required>
+                            <button type="submit" class="btn">Upload to <%= folder.name %></button>
+                        </form>
+
+                        <!-- List Files in Folder -->
+                        <% if (folder.files.length > 0) { %>
+                            <% folder.files.forEach(file => { %>
+                                <div class="file">
+                                    <div>
+                                        <span class="file-icon">📄</span>
+                                        <span class="file-name"><%= file.filename %></span>
+                                    </div>
+                                    <a href="/files/<%= file.id %>" class="btn">View</a>
+                                    <form action="/download/<%= file.id %>" method="GET" style="display: inline;">
+                                        <button type="submit" class="btn">Download</button>
+                                    </form>
+                                </div>
+                            <% }) %>
+                        <% } else { %>
+                            <p>No files in this folder.</p>
+                        <% } %>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>No folders found. Create a folder to get started!</p>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>
