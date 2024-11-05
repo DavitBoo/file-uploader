@@ -1,169 +1,316 @@
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
+}
   
-  body {
+body {
     font-family: Arial, sans-serif;
     background-color: #f1f3f4;
     color: #202124;
-  }
+}
   
-  .container {
+.container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-  }
+}
   
-  h1 {
+h1 {
     font-size: 24px;
     color: #1a73e8;
     margin-bottom: 20px;
-  }
+}
   
-  /* Top navigation bar */
-  .navbar {
+/* Top navigation bar */
+.navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #1a73e8;
     padding: 15px 20px;
     color: white;
-  }
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
   
-  .navbar h1 {
+.navbar h1 {
     font-size: 20px;
-    color: white;
     margin: 0;
-  }
+}
   
-  .navbar .btn {
-    padding: 8px 16px;
+.navbar .logout-btn {
     background-color: #ffffff;
     color: #1a73e8;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    padding: 8px 16px;
     font-weight: bold;
-  }
+}
   
-  .navbar .btn:hover {
+.logout-btn:hover {
     background-color: #f1f3f4;
-  }
-  
-  /* Folder and file layout */
-  .folder-grid {
+}
+
+/* Folder and file layout */
+.folder-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-  }
+    justify-content: start;
+}
   
-  .folder {
-    width: 180px;
+.folder {
+    width: 220px;
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 6px;
-    padding: 10px;
+    padding: 15px;
     text-align: center;
-    cursor: pointer;
     transition: box-shadow 0.2s;
-  }
+}
   
-  .folder:hover {
+.folder:hover {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  }
+}
   
-  .folder-icon {
-    font-size: 40px;
+.folder-icon {
+    font-size: 50px;
     color: #fbbc04;
-  }
+}
   
-  .folder h3 {
-    font-size: 14px;
+.folder h3 {
+    font-size: 16px;
     margin-top: 10px;
     color: #202124;
-  }
+    font-weight: normal;
+}
   
-  .file {
-    margin-top: 10px;
-    background-color: #f1f3f4;
-    border-radius: 4px;
-    padding: 8px;
+.file {
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
+    background-color: #f1f3f4;
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 10px;
+}
   
-  .file-icon {
+.file-info {
+    display: flex;
+    align-items: center;
+}
+  
+.file-icon {
     font-size: 18px;
     color: #1a73e8;
-    margin-right: 8px;
-  }
+    margin-right: 5px;
+}
   
-  .file .file-name {
-    flex-grow: 1;
-    font-size: 12px;
-  }
+.file .file-name {
+    font-size: 14px;
+    color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100px;
+}
   
-  .file .btn {
-    padding: 4px 8px;
+.btn {
     background-color: #1a73e8;
     color: white;
+    padding: 6px 10px;
     border: none;
     border-radius: 4px;
-    font-size: 10px;
-  }
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+}
   
-  .file .btn:hover {
+.btn:hover {
     background-color: #0059c1;
-  }
+}
   
-  /* Form styling */
-  .form-container {
-    margin-top: 20px;
+.no-files,
+.no-folders {
+    font-size: 14px;
+    color: #757575;
+    margin-top: 10px;
+}
+  
+/* Form styling */
+.form-container {
     background-color: white;
-    border-radius: 6px;
     padding: 20px;
+    border-radius: 6px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  }
+    margin-bottom: 20px;
+}
   
-  .form-container h2 {
+.form-container h2 {
     font-size: 18px;
     color: #202124;
-    margin-bottom: 15px;
-  }
+    margin-bottom: 10px;
+}
   
-  .form-container label {
-    display: block;
+.form-container label {
     font-size: 14px;
     color: #5f6368;
-    margin-bottom: 5px;
-  }
+}
   
-  .form-container input[type="text"],
-  .form-container input[type="file"] {
+.form-container input[type="text"],
+.form-container input[type="file"] {
     width: 100%;
     padding: 8px;
-    margin-bottom: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
-  }
+    margin-bottom: 10px;
+}
   
-  .form-container button {
+.form-container button {
     width: 100%;
-    padding: 10px;
     background-color: #1a73e8;
     color: white;
+    padding: 10px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
     font-weight: bold;
-  }
+}
   
-  .form-container button:hover {
+.form-container button:hover {
     background-color: #0059c1;
-  }
-  
+}
+
+/* Ensuring file input text does not overflow */
+.upload-form input[type="file"] {
+    font-size: 12px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: calc(100% - 12px);
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+
+
+/* ==== login ==== */
+/* Body styling for centered content */
+body.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f7f9fc;
+}
+
+/* Login container styling */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+.login-container .login-box {
+    width: 100%;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.login-container .1);
+    text-align: center;
+}
+
+.login-container .login-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.login-container .app-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+}
+
+.login-container h1 {
+    font-size: 20px;
+    color: #202124;
+    font-weight: bold;
+}
+
+.login-container h2 {
+    font-size: 18px;
+    color: #202124;
+    margin-bottom: 15px;
+}
+
+/* Form Styling */
+.login-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+}
+
+.login-container label {
+    font-size: 14px;
+    color: #5f6368;
+}
+
+.login-container input[type="email"],
+.login-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f1f3f4;
+}
+
+.login-container input[type="email"]:focus,
+.login-container input[type="password"]:focus {
+    outline: none;
+    border-color: #1a73e8;
+    background-color: #fff;
+}
+
+/* Button Styling */
+.login-container .login-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #1a73e8;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.login-container .login-btn:hover {
+    background-color: #1558c1;
+}
+
+/* Signup Text */
+.login-container .signup-text {
+    font-size: 14px;
+    color: #757575;
+    margin-top: 15px;
+}
+
+.login-container .signup-text a {
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+.login-container .signup-text a:hover {
+    text-decoration: underline;
+}

@@ -1,21 +1,37 @@
-<!-- views/login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+    <meta charset="UTF-8">
+    <title>Login - File Uploader</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
-<body>
-  <h2>Login</h2>
-  <form action="/login" method="POST">
-    <label for="email">Email:</label>
-    <input type="email" name="email" id="email" required>
-    <br><br>
-    <label for="password">Password:</label>
-    <input type="password" name="password" id="password" required>
-    <br><br>
-    <button type="submit">Login</button>
-  </form>
+<body class="login">
+    <div class="login-container">
+        <div class="login-box">
+            <!-- Icon and Title -->
+            <div class="login-header">
+                
+                <h1>📄 File_Uploader</h1>
+            </div>
+
+            <!-- Login Form -->
+            <h2>Log in</h2>
+            <form action="/login" method="POST">
+              <label for="email">Email:</label>
+              <input type="email" name="email" id="email" required>
+
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required>
+
+                <button type="submit" class="login-btn">Log in</button>
+            </form>
+
+            <!-- Sign-up and Demo Links -->
+            <p class="signup-text">
+                Don't have an account? 
+                <a href="/signup">Sign up here</a>
+            </p>
+        </div>
+    </div>
 </body>
 </html>

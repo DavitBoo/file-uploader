@@ -18,13 +18,13 @@ exports.register = async (req, res) => {
 };
 
 exports.login = (req, res) => {
-  res.status(200).json({ message: "Logged in successfully" });
+  res.redirect('/');
 };
 
 exports.logout = (req, res) => {
   req.logout((err) => {
     if (err) return res.status(500).json({ message: "Logout failed" });
-    res.status(200).json({ message: "Logged out successfully" });
+    res.redirect('/login');
   });
 };
 

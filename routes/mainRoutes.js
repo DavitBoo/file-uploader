@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const { PrismaClient } = require('@prisma/client');
+const { isAuthenticated } = require('../middleware/authMiddleware');
 const prisma = new PrismaClient();
 
-router.get('/', async (req, res) => {
+
+router.get('/', isAuthenticated, async (req, res) => {
   const userId = req.user ? req.user.id : null; 
   
   try {
