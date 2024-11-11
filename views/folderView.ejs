@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Files in <%= folder.name %></title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="navbar">
+        <h1><a href="/">Files in <%= folder.name %></a></h1>
+        
+        <button class="btn logout-btn" onclick="window.location.href='/logout'">Logout</button>
+    </div>
+
+    <div class="container">
+        <h2>Files in "<%= folder.name %>"</h2>
+        <div class="file-list">
+            <% if (folder.files.length > 0) { %>
+                <% folder.files.forEach(file => { %>
+                    <div class="file">
+                        <div class="file-info">
+                            <span class="file-icon">📄</span>
+                            <span class="file-name"><%= file.filename %></span>
+                        </div>
+                        <a href="/files/<%= file.id %>" class="btn view-btn">View</a>
+                        <a href="/download/<%= file.id %>" class="btn download-btn">Download</a>
+                    </div>
+                    <hr>
+                <% }) %>
+            <% } else { %>
+                <p class="no-files">No files in this folder.</p>
+            <% } %>
+        </div>
+        <button class="btn back-btn" onclick="window.location.href='/'">Back to Folders</button>
+    </div>
+</body>
+</html>

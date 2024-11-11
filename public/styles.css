@@ -30,19 +30,23 @@ h1 {
     background-color: #1a73e8;
     padding: 15px 20px;
     color: white;
-    border-radius: 4px;
     margin-bottom: 20px;
 }
   
 .navbar h1 {
     font-size: 20px;
     margin: 0;
+    color: #fff;
+}
+
+.navbar h1 a{
+    text-decoration: none;
+    color: #fff;
 }
   
 .navbar .logout-btn {
     background-color: #ffffff;
     color: #1a73e8;
-    border: none;
     border-radius: 4px;
     cursor: pointer;
     padding: 8px 16px;
@@ -85,6 +89,11 @@ h1 {
     margin-top: 10px;
     color: #202124;
     font-weight: normal;
+    margin-bottom: 1rem;
+}
+
+.folder a {
+    text-decoration: none;
 }
   
 .file {
@@ -95,6 +104,10 @@ h1 {
     border-radius: 4px;
     padding: 10px;
     margin-top: 10px;
+}
+
+.file-list {
+    margin-bottom: 2rem;
 }
   
 .file-info {
@@ -120,16 +133,19 @@ h1 {
 .btn {
     background-color: #1a73e8;
     color: white;
-    padding: 6px 10px;
-    border: none;
+    padding: 6px 10px;    
+    border: 1px solid white;
     border-radius: 4px;
     font-size: 12px;
     cursor: pointer;
     text-align: center;
+    transition: .3s all;
 }
   
 .btn:hover {
     background-color: #0059c1;
+    color: white;
+    border: 1px solid white;
 }
   
 .no-files,
@@ -313,4 +329,131 @@ body.login {
 
 .login-container .signup-text a:hover {
     text-decoration: underline;
+}
+
+
+/* File details */
+/* file-details.css */
+
+
+body.file-details  {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+    flex-direction: column;
+}
+
+.file-details .container {
+    background-color: #fff;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    margin-top: 5rem;
+}
+
+.file-details h1 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.file-details p {
+    font-size: 1rem;
+    margin: 10px 0;
+    color: #555;
+}
+
+.file-details p strong {
+    color: #333;
+}
+
+.file-details form {
+    margin-top: 20px;
+}
+
+.file-details button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.file-details button:hover {
+    background-color: #0056b3;
+}
+
+
+/* register */
+/* register.css */
+
+
+body.register  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+}
+
+.register .container {
+    background-color: #fff;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.register h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.register form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.register label {
+    font-size: 1rem;
+    color: #333;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+.register input[type="text"],
+.register input[type="email"],
+.register input[type="password"] {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.register button {
+    padding: 10px 0;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.register button:hover {
+    background-color: #0056b3;
 }

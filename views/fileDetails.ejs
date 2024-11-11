@@ -3,15 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>File Details</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
-<body>
-    <h1>File Details</h1>
-    <p><strong>File Name:</strong> <%= file.filename %></p>
-    <p><strong>File Size:</strong> <%= (fileSizeInKB).toFixed(2) %> KB</p>
-    <p><strong>Upload Time:</strong> <%= new Date(file.uploadTime).toLocaleString() %></p>
+<body class="file-details">
+    <div class="navbar">
+        <button class="btn back-btn" onclick="window.history.back()">Back</button>
+        <button class="btn logout-btn" onclick="window.location.href='/logout'">Logout</button>
+    </div>
+    <div class="container">
+        <h1>File Details</h1>
+        <p><strong>File Name:</strong> <%= file.filename %></p>
+        <p><strong>File Size:</strong> <%= (fileSizeInKB).toFixed(2) %> KB</p>
+        <p><strong>Upload Time:</strong> <%= new Date(file.uploadTime).toLocaleString() %></p>
 
-    <form action="/download/<%= file.id %>" method="GET">
-        <button type="submit">Download</button>
-    </form>
+        <form action="/download/<%= file.id %>" method="GET">
+            <button type="submit">Download</button>
+        </form>
+    </div>
 </body>
 </html>

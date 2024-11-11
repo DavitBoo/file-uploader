@@ -10,6 +10,9 @@ router.get("/folders", isAuthenticated, folderController.getFolders);
 router.put("/folders/:id", isAuthenticated, folderController.updateFolder);
 router.delete("/folders/:id", isAuthenticated, folderController.deleteFolder);
 
+router.get('/folders/:folderId', isAuthenticated, folderController.filesInside);
+
 router.post("/folders/:id/upload", isAuthenticated, upload.single("file"), fileController.uploadFileToFolder);
+
 
 module.exports = router;

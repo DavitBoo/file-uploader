@@ -28,7 +28,7 @@ exports.createFolder = async (req, res) => {
     const folderPath = path.join(BASE_UPLOAD_PATH, folder.id.toString()); // here I write the new folders route and its name
     fs.mkdirSync(folderPath, { recursive: true }); // recursive allows to create the parent dirctories
 
-    res.status(201).json(folder);
+    res.redirect('/');
   } catch (error) {
     res.status(500).json({ message: "Error creating folder", error });
   }
@@ -98,3 +98,28 @@ exports.deleteFolder = async (req, res) => {
   }
 };
   
+
+// Ruta para ver los archivos dentro de una carpeta específica
+exports.filesInside = async (req, res) => {
+  const { folderId } = req.params;
+  const userId = req.user.id;  // Obtén el ID del usuario autenticado
+
+  try {
+    // Obtiene la carpeta específica con sus archivos
+    const folder = await prisma.folder.findUnique({
+      where: { id: parseInt(folderId), userId },
+      include: {
+        files: true, // Incluye los archivos asociados a la carpeta
+      },
+    });
+
+    if (!folder) {
+      return res.status(404).send("Folder not found or not authorized");
+    }
+
+    // Renderiza la vista y pasa la carpeta y los archivos
+    res.render('folderView', { folder });
+  } catch (error) {
+    res.status(500).send("Error retrieving folder files");
+  }
+};

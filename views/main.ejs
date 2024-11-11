@@ -29,30 +29,24 @@
             <% if (folders.length > 0) { %>
                 <% folders.forEach(folder => { %>
                     <div class="folder">
-                        <div class="folder-icon">📁</div>
-                        <h3><%= folder.name %></h3>
+                        <a href="/folders/<%= folder.id %>">
+                            <div class="folder-icon">📁</div>
+                            <h3><%= folder.name %></h3>
+                        </a>
+
+                        <!-- Show file count if there are files in the folder -->
+                        <% if (folder.files.length > 0) { %>
+                            <p class="file-count"><%= folder.files.length %> file(s) in this folder</p>
+                        <% } else { %>
+                            <p class="no-files">No files in this folder.</p>
+                        <% } %>
                         
                         <!-- File Upload Form for Each Folder -->
                         <form action="/folders/<%= folder.id %>/upload" method="POST" enctype="multipart/form-data" class="upload-form">
                             <input type="file" name="file" required>
+                            <input type="hidden" name="folderId" value="<%= folder.id %>">
                             <button type="submit" class="btn upload-btn">Upload to <%= folder.name %></button>
                         </form>
-
-                        <!-- List Files in Folder -->
-                        <% if (folder.files.length > 0) { %>
-                            <% folder.files.forEach(file => { %>
-                                <div class="file">
-                                    <div class="file-info">
-                                        <span class="file-icon">📄</span>
-                                        <span class="file-name"><%= file.filename %></span>
-                                    </div>
-                                    <a href="/files/<%= file.id %>" class="btn view-btn">View</a>
-                                    <a href="/download/<%= file.id %>" class="btn download-btn">Download</a>
-                                </div>
-                            <% }) %>
-                        <% } else { %>
-                            <p class="no-files">No files in this folder.</p>
-                        <% } %>
                     </div>
                 <% }) %>
             <% } else { %>

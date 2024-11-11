@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 const BASE_UPLOAD_PATH = path.join(__dirname, "../uploads"); // we get the uploads path
 
 exports.uploadFileToFolder = async (req, res) => {
+  
   const { folderId } = req.body;
   const userId = req.user.id;
 
@@ -15,13 +16,13 @@ exports.uploadFileToFolder = async (req, res) => {
       where: { id: parseInt(folderId), userId },
     });
 
+
     
     if (!folder) {
       return res.status(404).json({ message: "Folder not found or not authorized" });
     }
     
     const folderPath = path.join(BASE_UPLOAD_PATH, folderId.toString());
-    console.log(folderPath);
 
     // Ensure the file is saved in the correct folder
     const newFilePath = path.join(folderPath, req.file.filename);
@@ -36,7 +37,7 @@ exports.uploadFileToFolder = async (req, res) => {
       },
     });
 
-    res.status(200).json({ message: "File uploaded successfully", file });
+    res.redirect('/');
   } catch (error) {
     res.status(500).json({ message: "Error uploading file", error });
   }
