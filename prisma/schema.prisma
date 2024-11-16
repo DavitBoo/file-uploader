@@ -48,11 +48,20 @@
 }
 
 
+// model File {
+//   id        Int      @id @default(autoincrement())
+//   filename  String
+//   path      String
+//   folder    Folder   @relation(fields: [folderId], references: [id])
+//   folderId  Int
+//   createdAt DateTime @default(now())
+// }
+
 model File {
-  id        Int      @id @default(autoincrement())
-  filename  String
-  path      String
-  folder    Folder   @relation(fields: [folderId], references: [id])
-  folderId  Int
+  id       Int      @id @default(autoincrement())
+  filename String
+  url      String   @default("default_value")
+  folderId Int
+  folder   Folder   @relation(fields: [folderId], references: [id])
   createdAt DateTime @default(now())
 }
