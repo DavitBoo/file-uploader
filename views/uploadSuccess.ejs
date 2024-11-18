@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Success</title>
+  <link rel="stylesheet" href="/styles.css"> <!-- Link to your CSS -->
+</head>
+<body class="upload-success">
+  <div class="container">
+    <h1>🎉 File Uploaded Successfully! 🎉</h1>
+
+    <div class="success-message">
+      <p>Your file was uploaded successfully to the folder:</p>
+      <h2>Folder ID: <%= folderId %></h2>
+    </div>
+
+    <div class="file-details">
+      <h3>File Details:</h3>
+      <p><strong>File Name:</strong> <%= file.filename %></p>
+      <p><strong>File URL:</strong> <a href="<%= file.url %>" target="_blank"><%= file.url %></a></p>
+    </div>
+
+    <div class="actions">
+      <a href="/" class="btn">Go Back to Dashboard</a>
+      <a href="<%= file.url %>" class="btn" target="_blank">View File</a>
+    </div>
+  </div>
+</body>
+</html>
