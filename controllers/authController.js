@@ -11,9 +11,9 @@ exports.register = async (req, res) => {
     const user = await prisma.user.create({
       data: { email, password: hashedPassword, name },
     });
-    res.status(201).json(user);
+    res.status(201).render("registerSuccess", { user });
   } catch (error) {
-    res.status(400).json({ error: "User already exists" });
+    res.status(400).render("registerFail", { error: "User already exists" });
   }
 };
 
