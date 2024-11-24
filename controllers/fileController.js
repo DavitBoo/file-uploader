@@ -73,14 +73,15 @@
       console.log(`${folderId}/${file.originalname}`);
 
       // Generate the public URL for the file
-      const { publicURL, error: publicURLError } = supabase
-      .storage
-      .from('file_upload_app')
-      .getPublicUrl(`${folderId}/${file.originalname}`);
+      // const { publicURL, error: publicURLError } = supabase
+      // .storage
+      // .from('file_upload_app')
+      // .getPublicUrl(`${folderId}/${file.originalname}`);
+      const publicURL = `https://xsxdgtteyslgqtctyuqj.supabase.co/storage/v1/object/public/file_upload_app/${folderId}/${file.originalname}`
 
-    if (publicURLError) {
-      throw new Error('Failed to retrieve public URL for the file');
-    }
+      // if (publicURLError) {
+      //   throw new Error('Failed to retrieve public URL for the file');
+      // }
 
     const savedFile = await prisma.file.create({
       data: {
