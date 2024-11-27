@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Folder</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Share Folder</h1>
+        <form action="/share" method="POST">
+            <label for="folderId">Folder ID:</label>
+            <input type="text" id="folderId" name="folderId" required>
+
+            <label for="duration">Duration (e.g., 1d, 7d):</label>
+            <input type="text" id="duration" name="duration" required>
+
+            <button type="submit" class="btn">Generate Share Link</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -9,6 +9,7 @@ const authRoutes = require("./routes/authRoutes");
 const fileRoutes = require("./routes/fileRoutes");
 const folderRoutes = require("./routes/folderRoutes");
 const mainRoutes = require('./routes/mainRoutes');
+const shareRoutes = require('./routes/shareRoutes')
 
 const app = express();
 const prisma = new PrismaClient();
@@ -54,6 +55,7 @@ app.use(mainRoutes);
 app.use("/", authRoutes);
 app.use("/", fileRoutes);
 app.use("/", folderRoutes);
+app.use("/", shareRoutes)
 
 // Start the server
 const PORT = process.env.PORT || 3000;
