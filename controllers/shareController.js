@@ -18,7 +18,7 @@ exports.shareFolder = async (req, res) => {
     }
 
     // Calculate expiration time
-    const durationDays = parseInt(duration.replace('d', '')); // Convert "10d" -> 10
+    const durationDays = parseInt(duration.replace("d", "")); // Convert "10d" -> 10
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + durationDays);
     console.log(expiresAt);
@@ -32,7 +32,7 @@ exports.shareFolder = async (req, res) => {
     });
 
     // Generate shareable link
-    const shareUrl = `${req.protocol}://${req.get('host')}/share/${sharedLink.token}`;
+    const shareUrl = `${req.protocol}://${req.get("host")}/share/${sharedLink.token}`;
 
     res.status(201).json({ message: "Folder shared successfully", shareUrl });
   } catch (error) {
@@ -40,8 +40,6 @@ exports.shareFolder = async (req, res) => {
     res.status(500).json({ message: "Error sharing folder", error: error.message });
   }
 };
-
-
 
 exports.accessSharedFolder = async (req, res) => {
   const { token } = req.params;
@@ -63,13 +61,24 @@ exports.accessSharedFolder = async (req, res) => {
       return res.status(403).send("This share link has expired.");
     }
 
+
     // Use Supabase to generate public URLs for all files in the folder
     const filesWithUrls = await Promise.all(
       sharedLink.folder.files.map(async (file) => {
-        const { publicURL } = supabase.storage
-          .from('file_upload_app')
-          .getPublicUrl(`${sharedLink.folderId}/${file.filename}`);
-        return { ...file, publicURL };
+        const filePath = `${sharedLink.folderId}/${file.filename}`;
+        console.log("Generating public URL for:", filePath);
+
+        const { data, error } = supabase.storage.from("file_upload_app").getPublicUrl(filePath);
+
+        if (error) {
+          console.error("Error generating public URL:", error);
+        } else {
+          console.log("Public URL generated:", data);
+        }
+        const publicUrl = `${data.publicUrl}?download=${file.filename}`;
+
+        console.log({ ...file, publicUrl });
+        return { ...file, publicUrl };
       })
     );
 
