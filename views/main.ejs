@@ -1,58 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>File Manager - Google Drive Style</title>
-    <link rel="stylesheet" href="/styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
     <!-- Top Navigation Bar -->
     <div class="navbar">
-        <h1>File Manager</h1>
-        <button class="btn logout-btn" onclick="window.location.href='/logout'">Logout</button>
+      <h1>File Manager</h1>
+      <button class="btn logout-btn" onclick="window.location.href='/logout'">Logout</button>
     </div>
 
     <div class="container">
-        <!-- Create Folder Form -->
-        <div class="form-container">
-            <h2>Create a New Folder</h2>
-            <form action="/folders" method="POST">
-                <label for="folderName">Folder Name:</label>
-                <input type="text" name="name" id="folderName" required>
-                <button type="submit">Create Folder</button>
-            </form>
-        </div>
+      <!-- Create Folder Form -->
+      <div class="form-container">
+        <h2>Create a New Folder</h2>
+        <form action="/folders" method="POST">
+          <label for="folderName">Folder Name:</label>
+          <input type="text" name="name" id="folderName" required />
+          <button type="submit">Create Folder</button>
+        </form>
+      </div>
 
-        <!-- Display Folders -->
-        <h2>Your Folders</h2>
-        <div class="folder-grid">
-            <% if (folders.length > 0) { %>
-                <% folders.forEach(folder => { %>
-                    <div class="folder">
-                        <a href="/folders/<%= folder.id %>">
-                            <div class="folder-icon">📁</div>
-                            <h3><%= folder.name %></h3>
-                        </a>
+      <!-- Display Folders -->
+      <h2>Your Folders</h2>
+      <div class="folder-grid">
+        <% if (folders.length > 0) { %> <% folders.forEach(folder => { %>
+        <div class="folder">
+          <a href="/folders/<%= folder.id %>">
+            <div class="folder-icon">📁</div>
+            <h3><%= folder.name %></h3>
+          </a>
 
-                        <!-- Show file count if there are files in the folder -->
-                        <% if (folder.files.length > 0) { %>
-                            <p class="file-count"><%= folder.files.length %> file(s) in this folder</p>
-                        <% } else { %>
-                            <p class="no-files">No files in this folder.</p>
-                        <% } %>
-                        
-                        <!-- File Upload Form for Each Folder -->
-                        <form action="/folders/<%= folder.id %>/upload" method="POST" enctype="multipart/form-data" class="upload-form">
-                            <input type="file" name="file" required>
-                            <input type="hidden" name="folderId" value="<%= folder.id %>">
-                            <button type="submit" class="btn upload-btn">Upload to <%= folder.name %></button>
-                        </form>
-                    </div>
-                <% }) %>
-            <% } else { %>
-                <p class="no-folders">No folders found. Create a folder to get started!</p>
-            <% } %>
+          <!-- Show file count if there are files in the folder -->
+          <% if (folder.files.length > 0) { %>
+          <p class="file-count"><%= folder.files.length %> file(s) in this folder</p>
+          <% } else { %>
+          <p class="no-files">No files in this folder.</p>
+          <% } %>
+
+          <!-- Share Button -->
+          <button class="btn share-btn" onclick="openShareModal('<%= folder.id %>', '<%= folder.name %>')">
+            Share
+          </button>
+
+          <!-- File Upload Form for Each Folder -->
+          <form
+            action="/folders/<%= folder.id %>/upload"
+            method="POST"
+            enctype="multipart/form-data"
+            class="upload-form"
+          >
+            <input type="file" name="file" required />
+            <input type="hidden" name="folderId" value="<%= folder.id %>" />
+            <button type="submit" class="btn upload-btn">Upload to <%= folder.name %></button>
+          </form>
         </div>
+        <% }) %> <% } else { %>
+        <p class="no-folders">No folders found. Create a folder to get started!</p>
+        <% } %>
+      </div>
     </div>
-</body>
+
+
+    <div id="shareModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeShareModal()">&times;</span>
+            <h2>Share Folder: <span id="modalFolderName"></span></h2>
+            <form id="shareForm">
+                <input type="hidden" id="modalFolderId" name="folderId">
+                <label for="duration">Duration (e.g., 1d, 7d):</label>
+                <input type="text" id="duration" name="duration" required>
+                <button type="submit" class="btn">Generate Share Link</button>
+            </form>
+            <div id="shareResult" style="display: none;">
+                <p>Shareable Link:</p>
+                <input type="text" id="shareUrl" readonly>
+                <button onclick="copyToClipboard()">Copy Link</button>
+            </div>
+        </div>
+    </div>  
+    <script src="/shareModal.js"></script>
+  </body>
 </html>
