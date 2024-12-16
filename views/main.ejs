@@ -33,29 +33,74 @@
             <h3><%= folder.name %></h3>
           </a>
 
-          <!-- Show file count if there are files in the folder -->
+          <!-- Dropdown Menu -->
+          <div class="dropdown-folder-options">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-three-dots-vertical"
+              viewBox="0 0 16 16"
+              onclick="toggleDropdown(this)"
+            >
+              <path
+                d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"
+              />
+            </svg>
+            <div class="dropdownBox">
+              <!-- Share -->
+              <button class="btn-dropdown" onclick="openShareModal('<%= folder.id %>', '<%= folder.name %>')">
+                Share
+              </button>
+              <!-- Rename -->
+              <button class="btn-dropdown" onclick="openRenameModal('<%= folder.id %>', '<%= folder.name %>')">
+                Rename
+              </button>
+              <!-- Remove Folder -->
+              <form action="/folders/<%= folder.id %>/delete" method="POST" class="inline-form">
+                <button type="submit" class="btn-dropdown remove-btn">Remove Folder</button>
+              </form>
+              <!-- Upload -->
+              <button class="btn-dropdown" onclick="openUploadModal('<%= folder.id %>', '<%= folder.name %>')">
+                Upload File
+              </button>
+            </div>
+          </div>
+
+          <!-- Show file count -->
           <% if (folder.files.length > 0) { %>
           <p class="file-count"><%= folder.files.length %> file(s) in this folder</p>
           <% } else { %>
           <p class="no-files">No files in this folder.</p>
           <% } %>
+        </div>
 
-          <!-- Share Button -->
-          <button class="btn share-btn" onclick="openShareModal('<%= folder.id %>', '<%= folder.name %>')">
-            Share
-          </button>
+        <!-- Upload Modal -->
+        <div id="uploadModal" class="modal">
+          <div class="modal-content">
+            <span class="close" onclick="closeUploadModal()">&times;</span>
+            <h2>Upload File to: <span id="uploadFolderName"></span></h2>
+            <form id="uploadForm" action="/folders/<%= folder.id %>/upload" method="POST" enctype="multipart/form-data">
+              <input type="file" name="file" required />
+              <input type="hidden" id="uploadFolderId" name="folderId" />
+              <button type="submit" class="btn">Upload</button>
+            </form>
+          </div>
+        </div>
 
-          <!-- File Upload Form for Each Folder -->
-          <form
-            action="/folders/<%= folder.id %>/upload"
-            method="POST"
-            enctype="multipart/form-data"
-            class="upload-form"
-          >
-            <input type="file" name="file" required />
-            <input type="hidden" name="folderId" value="<%= folder.id %>" />
-            <button type="submit" class="btn upload-btn">Upload to <%= folder.name %></button>
-          </form>
+        <!-- Rename Modal -->
+        <div id="renameModal" class="modal">
+          <div class="modal-content">
+            <span class="close" onclick="closeRenameModal()">&times;</span>
+            <h2>Rename Folder: <span id="renameFolderName"></span></h2>
+            <form id="renameForm" onsubmit="submitRename(event)">
+              <input type="hidden" id="renameFolderId" />
+              <label for="newFolderName">New Folder Name:</label>
+              <input type="text" id="newFolderName" name="name" required />
+              <button type="submit" class="btn">Rename</button>
+            </form>
+          </div>
         </div>
         <% }) %> <% } else { %>
         <p class="no-folders">No folders found. Create a folder to get started!</p>
@@ -63,24 +108,23 @@
       </div>
     </div>
 
-
     <div id="shareModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeShareModal()">&times;</span>
-            <h2>Share Folder: <span id="modalFolderName"></span></h2>
-            <form id="shareForm">
-                <input type="hidden" id="modalFolderId" name="folderId">
-                <label for="duration">Duration (e.g., 1d, 7d):</label>
-                <input type="text" id="duration" name="duration" required>
-                <button type="submit" class="btn">Generate Share Link</button>
-            </form>
-            <div id="shareResult" style="display: none;">
-                <p>Shareable Link:</p>
-                <input type="text" id="shareUrl" readonly>
-                <button onclick="copyToClipboard()">Copy Link</button>
-            </div>
+      <div class="modal-content">
+        <span class="close" onclick="closeShareModal()">&times;</span>
+        <h2>Share Folder: <span id="modalFolderName"></span></h2>
+        <form id="shareForm">
+          <input type="hidden" id="modalFolderId" name="folderId" />
+          <label for="duration">Duration (e.g., 1d, 7d):</label>
+          <input type="text" id="duration" name="duration" required />
+          <button type="submit" class="btn">Generate Share Link</button>
+        </form>
+        <div id="shareResult" style="display: none">
+          <p>Shareable Link:</p>
+          <input type="text" id="shareUrl" readonly />
+          <button onclick="copyToClipboard()">Copy Link</button>
         </div>
-    </div>  
-    <script src="/shareModal.js"></script>
+      </div>
+    </div>
+    <script src="/script.js"></script>
   </body>
 </html>

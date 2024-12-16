@@ -13,4 +13,4 @@ router.post("/share", shareController.shareFolder);
 // Access a shared folder
 router.get("/share/:token", shareController.accessSharedFolder);
 
-module.exports = router;
+module.exports = router;  

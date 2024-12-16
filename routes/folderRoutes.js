@@ -15,5 +15,4 @@ router.get('/folders/:folderId', isAuthenticated, folderController.filesInside);
 // router.post("/folders/:id/upload", isAuthenticated, upload.single("file"), fileController.uploadFileToFolder);
 router.post('/folders/:folderId/upload', isAuthenticated, upload.single('file'), fileController.uploadFileToFolder);
 
-
 module.exports = router;

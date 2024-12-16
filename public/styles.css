@@ -1,547 +1,629 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-  
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f1f3f4;
-    color: #202124;
-}
-  
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-  
-h1 {
-    font-size: 24px;
-    color: #1a73e8;
-    margin-bottom: 20px;
-}
-  
-/* Top navigation bar */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #1a73e8;
-    padding: 15px 20px;
-    color: white;
-    margin-bottom: 20px;
-}
-  
-.navbar h1 {
-    font-size: 20px;
-    margin: 0;
-    color: #fff;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.navbar h1 a{
-    text-decoration: none;
-    color: #fff;
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f1f3f4;
+  color: #202124;
 }
-  
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 24px;
+  color: #1a73e8;
+  margin-bottom: 20px;
+}
+
+/* Top navigation bar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1a73e8;
+  padding: 15px 20px;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.navbar h1 {
+  font-size: 20px;
+  margin: 0;
+  color: #fff;
+}
+
+.navbar h1 a {
+  text-decoration: none;
+  color: #fff;
+}
+
 .navbar .logout-btn {
-    background-color: #ffffff;
-    color: #1a73e8;
-    border-radius: 4px;
-    cursor: pointer;
-    padding: 8px 16px;
-    font-weight: bold;
+  background-color: #ffffff;
+  color: #1a73e8;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 8px 16px;
+  font-weight: bold;
 }
-  
+
 .logout-btn:hover {
-    background-color: #f1f3f4;
+  background-color: #f1f3f4;
 }
 
 /* Folder and file layout */
 .folder-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: start;
 }
-  
+
 .folder {
-    width: 220px;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 15px;
-    text-align: center;
-    transition: box-shadow 0.2s;
+  position: relative;
+  width: 220px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 15px;
+  text-align: center;
+  transition: box-shadow 0.2s;
 }
-  
+
 .folder:hover {
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
-  
+
+.dropdown-folder-options {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: transparent;
+  border: 0;
+  fill: #5f6368;
+  cursor: pointer;
+}
+
+.dropdownBox {
+  display: none;
+  position: absolute;
+  top: 2rem;
+  right: 0;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  flex-direction: column;
+  min-width: 8rem;
+
+}
+
+.dropdownBox.show {
+  display: flex;
+}
+
+/* Modal upload */
+#renameModal.modal,
+#uploadModal.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#renameModal .modal-content,
+#uploadModal .modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 8px;
+}
+
+#renameModal .close,
+#uploadModal .close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+#renameModal .close:hover,
+#uploadModal .close:hover,
+#renameModal .close:focus,
+#uploadModal .close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .folder-icon {
-    font-size: 50px;
-    color: #fbbc04;
+  font-size: 50px;
+  color: #fbbc04;
 }
-  
+
 .folder h3 {
-    font-size: 16px;
-    margin-top: 10px;
-    color: #202124;
-    font-weight: normal;
-    margin-bottom: 1rem;
+  font-size: 16px;
+  margin-top: 10px;
+  color: #202124;
+  font-weight: normal;
+  margin-bottom: 1rem;
 }
 
 .folder a {
-    text-decoration: none;
+  text-decoration: none;
 }
-  
+
 .file {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #f1f3f4;
-    border-radius: 4px;
-    padding: 10px;
-    margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f1f3f4;
+  border-radius: 4px;
+  padding: 10px;
+  margin-top: 10px;
 }
 
 .file-list {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }
-  
+
 .file-info {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
-  
+
 .file-icon {
-    font-size: 18px;
-    color: #1a73e8;
-    margin-right: 5px;
+  font-size: 18px;
+  color: #1a73e8;
+  margin-right: 5px;
 }
-  
+
 .file .file-name {
-    font-size: 14px;
-    color: #333;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 100px;
+  font-size: 14px;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100px;
 }
-  
+
 .btn {
-    background-color: #1a73e8;
-    color: white;
-    padding: 6px 10px;    
-    border: 1px solid white;
+  background-color: #1a73e8;
+  color: white;
+  padding: 6px 10px;
+  border: 1px solid white;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: center;
+  transition: 0.3s all;
+}
+
+.btn-dropdown {
+background-color: transparent;
+border: 0;
+    color: rgb(0, 0, 0);
+    padding: 6px 10px;
     border-radius: 4px;
     font-size: 12px;
     cursor: pointer;
     text-align: center;
-    transition: .3s all;
-}
-  
+    transition: 0.3s all;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+  }
+
+  .btn-dropdown:hover {
+    background-color: #f3f3f3;
+  }
+
+
 .btn:hover {
-    background-color: #0059c1;
-    color: white;
-    border: 1px solid white;
+  background-color: #0059c1;
+  color: white;
+  border: 1px solid white;
 }
-  
+
 .no-files,
 .no-folders {
-    font-size: 14px;
-    color: #757575;
-    margin-top: 10px;
+  font-size: 14px;
+  color: #757575;
+  margin-top: 10px;
 }
-  
+
 /* Form styling */
 .form-container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 6px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
-  
+
 .form-container h2 {
-    font-size: 18px;
-    color: #202124;
-    margin-bottom: 10px;
+  font-size: 18px;
+  color: #202124;
+  margin-bottom: 10px;
 }
-  
+
 .form-container label {
-    font-size: 14px;
-    color: #5f6368;
+  font-size: 14px;
+  color: #5f6368;
 }
-  
+
 .form-container input[type="text"],
 .form-container input[type="file"] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-bottom: 10px;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
 }
-  
+
 .form-container button {
-    width: 100%;
-    background-color: #1a73e8;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
+  width: 100%;
+  background-color: #1a73e8;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
 }
-  
+
 .form-container button:hover {
-    background-color: #0059c1;
+  background-color: #0059c1;
 }
 
 /* Ensuring file input text does not overflow */
 .upload-form input[type="file"] {
-    font-size: 12px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    width: calc(100% - 12px);
-    padding: 6px;
-    border-radius: 4px;
-    border: 1px solid #ddd;
+  font-size: 12px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: calc(100% - 12px);
+  padding: 6px;
+  border-radius: 4px;
 }
-
-
 
 /* ==== login ==== */
 /* Body styling for centered content */
 body.login {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f7f9fc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f7f9fc;
 }
 
 /* Login container styling */
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 400px;
-    padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
 }
 
 .login-container .login-box {
-    width: 100%;
-    background-color: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.login-container .1);
-    text-align: center;
+  width: 100%;
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0login-container 0.1);
+  text-align: center;
 }
 
 .login-container .login-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
 .login-container .app-icon {
-    width: 30px;
-    height: 30px;
-    margin-right: 8px;
+  width: 30px;
+  height: 30px;
+  margin-right: 8px;
 }
 
 .login-container h1 {
-    font-size: 20px;
-    color: #202124;
-    font-weight: bold;
+  font-size: 20px;
+  color: #202124;
+  font-weight: bold;
 }
 
 .login-container h2 {
-    font-size: 18px;
-    color: #202124;
-    margin-bottom: 15px;
+  font-size: 18px;
+  color: #202124;
+  margin-bottom: 15px;
 }
 
 /* Form Styling */
 .login-container form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
 }
 
 .login-container label {
-    font-size: 14px;
-    color: #5f6368;
+  font-size: 14px;
+  color: #5f6368;
 }
 
 .login-container input[type="email"],
 .login-container input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #f1f3f4;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f1f3f4;
 }
 
 .login-container input[type="email"]:focus,
 .login-container input[type="password"]:focus {
-    outline: none;
-    border-color: #1a73e8;
-    background-color: #fff;
+  outline: none;
+  border-color: #1a73e8;
+  background-color: #fff;
 }
 
 /* Button Styling */
 .login-container .login-btn {
-    width: 100%;
-    padding: 10px;
-    background-color: #1a73e8;
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  width: 100%;
+  padding: 10px;
+  background-color: #1a73e8;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .login-container .login-btn:hover {
-    background-color: #1558c1;
+  background-color: #1558c1;
 }
 
 /* Signup Text */
 .login-container .signup-text {
-    font-size: 14px;
-    color: #757575;
-    margin-top: 15px;
+  font-size: 14px;
+  color: #757575;
+  margin-top: 15px;
 }
 
 .login-container .signup-text a {
-    color: #1a73e8;
-    text-decoration: none;
+  color: #1a73e8;
+  text-decoration: none;
 }
 
 .login-container .signup-text a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
-
 
 /* File details */
 /* file-details.css */
 
-
-body.file-details  {
-    display: flex;
-    justify-content: flex-start;
-    align-items: stretch;
-    min-height: 100vh;
-    background-color: #f4f4f4;
-    flex-direction: column;
+body.file-details {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  min-height: 100vh;
+  background-color: #f4f4f4;
+  flex-direction: column;
 }
 
 .file-details .container {
-    background-color: #fff;
-    padding: 20px 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 500px;
-    text-align: center;
-    margin-top: 5rem;
+  background-color: #fff;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  margin-top: 5rem;
 }
 
 .file-details h1 {
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-    color: #333;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #333;
 }
 
 .file-details p {
-    font-size: 1rem;
-    margin: 10px 0;
-    color: #555;
+  font-size: 1rem;
+  margin: 10px 0;
+  color: #555;
 }
 
 .file-details p strong {
-    color: #333;
+  color: #333;
 }
 
 .file-details form {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .file-details button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .file-details button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
-
 
 /* register */
 /* register.css */
 
-
-body.register  {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f4f4f4;
+body.register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f4f4f4;
 }
 
 .register .container {
-    background-color: #fff;
-    padding: 20px 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
+  background-color: #fff;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
 }
 
 .register h2 {
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-    color: #333;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #333;
 }
 
 .register form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .register label {
-    font-size: 1rem;
-    color: #333;
-    text-align: left;
-    margin-bottom: 5px;
+  font-size: 1rem;
+  color: #333;
+  text-align: left;
+  margin-bottom: 5px;
 }
 
 .register input[type="text"],
 .register input[type="email"],
 .register input[type="password"] {
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
 }
 
 .register button {
-    padding: 10px 0;
-    font-size: 1rem;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  padding: 10px 0;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .register button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
-
-
 
 /* upload success */
 .upload-success .container {
-    text-align: center;
-    margin: 50px auto;
-    max-width: 600px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .upload-success .success-message {
-    background-color: #e7f6e7;
-    padding: 15px;
-    border: 1px solid #a3d7a3;
-    border-radius: 5px;
-    margin-bottom: 20px;
-  }
-  
-  .upload-success .file-details p {
-    font-size: 16px;
-    line-height: 1.5;
-  }
-  
-  .upload-success .file-details a {
-    color: #007BFF;
-    text-decoration: none;
-  }
-  
-  .upload-success .file-details a:hover {
-    text-decoration: underline;
-  }
-  
-  .upload-success .btn {
-    display: inline-block;
-    padding: 10px 20px;
-    margin: 10px;
-    background-color: #007BFF;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-  }
-  
-  .upload-success .btn:hover {
-    background-color: #0056b3;
-  }
+  text-align: center;
+  margin: 50px auto;
+  max-width: 600px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
+.upload-success .success-message {
+  background-color: #e7f6e7;
+  padding: 15px;
+  border: 1px solid #a3d7a3;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
 
-  /* share modal */
-  #shareModal.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
+.upload-success .file-details p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.upload-success .file-details a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.upload-success .file-details a:hover {
+  text-decoration: underline;
+}
+
+.upload-success .btn {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 10px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.upload-success .btn:hover {
+  background-color: #0056b3;
+}
+
+/* share modal */
+#shareModal.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 #shareModal .modal-content {
-    background-color: #fff;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 50%;
-    border-radius: 8px;
-    text-align: center;
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  border-radius: 8px;
+  text-align: center;
 }
 
 #shareModal .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 #shareModal .close:hover,
 #shareModal .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
