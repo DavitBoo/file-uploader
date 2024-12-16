@@ -8,7 +8,7 @@ const upload = require("../middleware/multerConfig");
 router.post("/folders", isAuthenticated, folderController.createFolder);
 router.get("/folders", isAuthenticated, folderController.getFolders);
 router.put("/folders/:id", isAuthenticated, folderController.updateFolder);
-router.delete("/folders/:id", isAuthenticated, folderController.deleteFolder);
+router.post("/folders/:id/delete", isAuthenticated, folderController.deleteFolder); // delete
 
 router.get('/folders/:folderId', isAuthenticated, folderController.filesInside);
 

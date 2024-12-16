@@ -2,6 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const fs = require("fs");
 const path = require("path");
+const supabase = require("../supabase");
 
 const BASE_UPLOAD_PATH = path.join(__dirname, "../uploads"); // we get the uploads path
 
@@ -28,7 +29,7 @@ exports.createFolder = async (req, res) => {
     const folderPath = path.join(BASE_UPLOAD_PATH, folder.id.toString()); // here I write the new folders route and its name
     fs.mkdirSync(folderPath, { recursive: true }); // recursive allows to create the parent dirctories
 
-    res.redirect('/');
+    res.redirect("/");
   } catch (error) {
     res.status(500).json({ message: "Error creating folder", error });
   }
@@ -75,7 +76,17 @@ exports.deleteFolder = async (req, res) => {
   const userId = req.user.id;
 
   try {
-    // Delete folder in the database
+    // delete files related to the folder
+    await prisma.file.deleteMany({
+      where: { folderId: parseInt(id) },
+    });
+
+    // delete share links related to the folder
+    await prisma.sharedLink.deleteMany({
+      where: { folderId: parseInt(id) },
+    });
+
+    // remove the folder from the data base
     const folder = await prisma.folder.deleteMany({
       where: { id: parseInt(id), userId },
     });
@@ -84,25 +95,22 @@ exports.deleteFolder = async (req, res) => {
       return res.status(404).json({ message: "Folder not found or not authorized" });
     }
 
-    // Delete the folder in the filesystem
-    const folderPath = path.join(BASE_UPLOAD_PATH, id.toString()); // BASE_UPLOAD_PATH is defined up in the file
-    console.log("Attempting to delete folder path:", folderPath); // Debugging line
-
-    if (fs.existsSync(folderPath)) {
-      fs.rmSync(folderPath, { recursive: true, force: true }); // to remove the folder
-    }
+    // test stage - remove folder from local
+    // const folderPath = path.join(BASE_UPLOAD_PATH, id.toString());
+    // if (fs.existsSync(folderPath)) {
+    //   fs.rmSync(folderPath, { recursive: true, force: true });
+    // }
 
     res.status(200).json({ message: "Folder deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: "Error deleting folder", error });
   }
 };
-  
 
 // Ruta para ver los archivos dentro de una carpeta específica
 exports.filesInside = async (req, res) => {
   const { folderId } = req.params;
-  const userId = req.user.id;  // Obtén el ID del usuario autenticado
+  const userId = req.user.id; // Obtén el ID del usuario autenticado
 
   try {
     // Obtiene la carpeta específica con sus archivos
@@ -118,7 +126,7 @@ exports.filesInside = async (req, res) => {
     }
 
     // Renderiza la vista y pasa la carpeta y los archivos
-    res.render('folderView', { folder });
+    res.render("folderView", { folder });
   } catch (error) {
     res.status(500).send("Error retrieving folder files");
   }
