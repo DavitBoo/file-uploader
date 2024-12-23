@@ -98,7 +98,7 @@ exports.deleteFolder = async (req, res) => {
       return;
     }
 
-    // ! aquí - no consigo borrar la carpeta de supabase
+
     // Delete all files in the folder before remove the folder
     const filesToDelete = filesInFolder.map((file) => `${id}/${file.name}`);
     const { error: deleteError } = await supabase.storage.from("file_upload_app").remove(filesToDelete);
@@ -110,7 +110,6 @@ exports.deleteFolder = async (req, res) => {
 
     const supabaseResponse = await supabase.storage.from("file_upload_app").remove([`${id}/`]);
 
-    console.log(`Supabase response: ${{ supabaseResponse }}`);
 
     if (supabaseResponse.error) {
       console.error("Error deleting folder in Supabase:", supabaseResponse.error.message);
@@ -120,13 +119,6 @@ exports.deleteFolder = async (req, res) => {
     if (folder.count === 0) {
       return res.status(404).json({ message: "Folder not found or not authorized" });
     }
-
-    // test stage - remove folder from local
-    // const folderPath = path.join(BASE_UPLOAD_PATH, id.toString());
-    // if (fs.existsSync(folderPath)) {
-    //   fs.rmSync(folderPath, { recursive: true, force: true });
-    // }
-    // ! hasta aquí
 
     res.status(200).json({ message: "Folder deleted successfully" });
   } catch (error) {
