@@ -1,67 +1,59 @@
-  // This is your Prisma schema file,
-  // learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
 
-  // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-  // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
 
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String
+  name      String?
+  createdAt DateTime  @default(now())
+  folders   Folder[]
+  sessions  Session[]
+}
 
-  datasource db {
-    provider = "postgresql" 
-    url      = env("DATABASE_URL")
-  }
+model Session {
+  id        String   @id @default(cuid())
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
+  userId    Int?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  generator client {
-    provider = "prisma-client-js"
-  }
+  @@index([sid], map: "idx_sid")
+  @@index([expiresAt], map: "idx_expiresAt")
+}
 
-  model User {
-    id        Int      @id @default(autoincrement())
-    email     String   @unique
-    password  String
-    name      String?
-    createdAt DateTime @default(now())
-    sessions  Session[] 
-      folders  Folder[] // 1-n
-  } 
-
-
-  model Session {
-    id          String   @id @default(cuid())
-    sid         String   @unique
-    data        String
-    expiresAt   DateTime
-    userId      Int?
-    user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-    @@index([sid], map: "idx_sid")
-    @@index([expiresAt], map: "idx_expiresAt")
-  }
-
-  model Folder {
-  id        Int      @id @default(autoincrement())
-  name      String
-  user      User     @relation(fields: [userId], references: [id])
-  userId    Int
-  files     File[]   // 1-n
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  sharedLinks SharedLink[] // Relation to shared_links
+model Folder {
+  id          Int          @id @default(autoincrement())
+  name        String
+  userId      Int
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  files       File[]
+  user        User         @relation(fields: [userId], references: [id])
+  sharedLinks SharedLink[]
 }
 
 model File {
-  id       Int      @id @default(autoincrement())
-  filename String
-  url      String   @default("default_value")
-  folderId Int
-  folder   Folder   @relation(fields: [folderId], references: [id])
+  id        Int      @id @default(autoincrement())
+  filename  String
+  folderId  Int
   createdAt DateTime @default(now())
+  url       String   @default("default_value")
+  folder    Folder   @relation(fields: [folderId], references: [id])
 }
 
 model SharedLink {
-  id         Int      @id @default(autoincrement())
-  token      String   @unique @default(uuid()) // Asegúrate de que sea único
-  folderId   Int
-  folder     Folder   @relation(fields: [folderId], references: [id], onDelete: Cascade)
-  expiresAt  DateTime
-  createdAt  DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  token     String   @unique @default(uuid())
+  folderId  Int
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  folder    Folder   @relation(fields: [folderId], references: [id], onDelete: Cascade)
 }
